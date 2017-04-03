@@ -1,0 +1,198 @@
+<html xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
+
+<head>
+
+<title>Christmas gifts</title>
+<meta property="fb:app_id" content="740238206076291" /> 
+<meta property="og:url" content="http://santa.comlu.com" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Primeste o urare de craciun de la un necunoscut!" />
+<meta property="og:description" content="De dragul sarbatorilor pe aceasta pagina vei primi cate o urare pe zi de la un necunoscut la intamplare.La randul tau poti si tu sa lasi o singura urare pe care o va putea primi oricine viziteaza aceasta pagina.Sarbatori fericite!" />
+<meta property="og:image" content="http://santa.comlu.com/share2.jpg" />
+<meta name="og:url" content="http://santa.comlu.com/" />
+<meta name="og:type" content="website" />
+<meta name="og:title" content="Primeste o urare de craciun de la un necunoscut!" />
+<meta name="og:description" content="De dragul sarbatorilor pe aceasta pagina vei primi cate o urare pe zi de la un necunoscut la intamplare.La randul tau poti si tu sa lasi o singura urare pe care o va putea primi oricine viziteaza aceasta pagina.Sarbatori fericite!" />
+<meta name="og:image" content="http://santa.comlu.com/share2.jpg" />
+<meta name="description" content="De dragul sarbatorilor pe aceasta pagina vei primi cate o urare pe zi de la un necunoscut la intamplare.La randul tau poti si tu sa lasi o singura urare pe care o va putea primi oricine viziteaza aceasta pagina.Sarbatori fericite!" />
+<meta name="author" content="Marica Sorin">
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+<style type="text/css">
+	body
+	{
+	background-image:url('background.jpg');
+	background-attachment:fixed;
+	background-size:cover;
+	font-size:24px;
+	font-family:24px;
+	}
+	
+	h1 {
+   text-shadow:
+       3px 3px 0 #000,
+     -1px -1px 0 #000,  
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+       1px 1px 0 #000;
+	font-family:"Oswald";
+	text-decoration:none;
+	font-size:20px;
+	color:white;
+	}
+	
+	input {
+	background-color:#C3E1F9;
+	height:30px;
+	width:200px;
+	}
+	
+	button {
+	background-color:transparent;
+	}
+	
+	textarea
+	{
+	background-color:#C3E1F9;
+	}
+	
+	#content {
+   text-shadow:
+       3px 3px 0 #000,
+     -1px -1px 0 #000,  
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+       1px 1px 0 #000;
+	   font-family:"Oswald";
+	color:white;
+	margin-top:50px;
+	width:800px;
+	}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '740238206076291',
+      xfbml      : true,
+      version    : 'v2.5'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+<script type="text/javascript">
+function getmesage()
+{	
+	$.ajax({
+	url: "get.php",
+	type: "GET",
+	success: function(response)
+	{
+		document.getElementById("display").innerHTML=response;
+		$("#verif").hide();
+	},
+	dataType: "html"
+	});
+}
+</script>
+</head>
+
+<body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ro_RO/sdk.js#xfbml=1&version=v2.5";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<center>
+<div id="content">
+<font size="7">Bun venit!</font><br>
+<h1>De dragul sarbatorilor pe aceasta pagina vei primi cate o urare pe zi de la un necunoscut la intamplare.La randul tau poti si tu sa lasi o singura urare pe care o va putea primi oricine viziteaza aceasta pagina.Sarbatori fericite!</h1>
+<h2>Ai primit o urare!<br>
+<?php
+$conn=new mysqli('mysql12.000webhost.com','a3898021_1','t3lombilo','a3898021_1');
+// verifica conexiunea
+if (mysqli_connect_errno()) {
+  exit('Connect failed: '. mysqli_connect_error());
+}
+$date=date('j-F-Y');
+$ip=$_SERVER['REMOTE_ADDR'];
+
+$sq = "SELECT * FROM `vizitatori` WHERE `ip`='$ip'";
+$r = $conn->query($sq);
+if ($r->num_rows > 0) {
+	$row=$r->fetch_assoc();
+	if ($row['lastget']==$date)
+	{
+		echo '<p id="display">';
+		$id=$row['getm'];
+		$cr = "SELECT * FROM `mesaje` WHERE `id`='$id'";
+		$result=$conn->query($cr);
+		$row2 = $result->fetch_assoc();
+		echo ",,".$row2['mesaj']."''";
+		if ($row2['nume']!=NULL) 
+		{
+			echo "<br>From:".$row2['nume'];	
+		}
+		if ($row2['facebook']!=NULL)
+		{
+			echo "<br>Facebook:<a href=".$row2['facebook'].">".$row2['facebook']."</a>";
+		}
+		echo '</p>Vino si maine pentru a primi o noua urare!<br><br><div class="fb-share-button" data-href="http://santa.comlu.com" data-layout="box_count"></div>';
+	}
+	else
+	{
+		echo '
+		<p id="display"></p>
+		<input type="image" src="ver.png" style="width:auto;height:auto;background-color:transparent;" id="verif" onClick="getmesage()">
+		<br>
+		<div class="fb-share-button" data-href="http://santa.comlu.com" data-layout="box_count"></div>
+		';
+	}
+	if ($row['send']==NULL)
+	{
+		echo '
+		<h2>Trimite si tu o urare de sarbatori!</h2>
+		<form method="POST" action="insert.php">
+		Urare de sarbatori:<br><textarea name="mesaj" rows="5" cols="50"></textarea><br>
+		Numele dumneavoastra(optional):<input type="text" name="nume"><br>
+		Facebookul dumneavoastra(optional):<input type="text" name="facebook"><br>
+		<input type="image" style="width:150px;height:auto;background:trasnparent;" src="sendmessage.png">
+		</form>
+		';
+	}
+}
+else
+{
+	echo '
+		<p id="display"></p>
+		<input type="image" id="verif" src="ver.png" style="width:auto;height:auto;background-color:transparent;" onClick="getmesage()">
+		<br>
+		<div class="fb-share-button" data-href="http://santa.comlu.com" data-layout="box_count"></div>
+		<h2>Trimite si tu o urare de sarbatori!</h2>
+		<form method="POST" action="insert.php">
+		Urare de sarbatori:<br><textarea name="mesaj" rows="5" cols="50"></textarea><br>
+		Numele dumneavoastra(optional):<input type="text" name="nume"><br>
+		Facebookul dumneavoastra(optional):<input type="text" name="facebook"><br>
+		<input type="image" style="width:150px;height:auto;background:trasnparent;background-color:transparent;" src="sendmessage.png">
+		</form>
+	';
+}
+
+$conn->close();
+
+?>
+</div>
+</center>
+</body>
+
+</html>
